@@ -1,0 +1,133 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  display: flex;
+  margin: 0;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0;
+}
+
+table {
+  border: 1px solid #b3adad;
+  border-collapse: collapse;
+  padding: 5px;
+  font-size: 1rem;
+  margin: 1rem;
+  flex: 1 0 0;
+}
+table th {
+  border: 1px solid #b3adad;
+  padding: 5px;
+  background: #f0f0f0;
+  color: #313030;
+}
+table td {
+  border: 1px solid #b3adad;
+  text-align: center;
+  padding: 5px;
+  background: #ffffff;
+  color: #313030;
+}
+
+.tablesContainer {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+
+#answerInput {
+  border: none;
+  background-color: #efefef;
+  font-size: 1.5em;
+  text-align: center;
+  padding: 1em;
+  margin: 1em;
+  margin-right: 5px;
+  outline: none;
+  border-radius: 5px;
+  align-self: center;
+  color: #6f6f6f;
+}
+
+.giveUpButton {
+  border-radius: 50%;
+  padding: 0.5em;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: 1.5em;
+  margin: 5px;
+}
+
+.refreshButton {
+  border-radius: 50%;
+  padding: 0.5em;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: 1.5em;
+  margin: 5px;
+}
+
+.answerInputContainer {
+  background-color: white;
+  position: sticky;
+  top: 0px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+.hidden {
+  opacity: 0;
+}
+
+.correct {
+  color: #02be02;
+}
+
+.wrong {
+  color: #d20000;
+}
+
+@media only screen and (max-width: 600px) {
+  html {
+    font-size: 16px;
+  }
+
+  .tablesContainer {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+  }
+
+  table {
+    border: 1px solid #b3adad;
+    border-collapse: collapse;
+    padding: 5px;
+    font-size: 1rem;
+    margin: 1rem;
+  }
+
+  .answerInputContainer {
+    font-size: 12px;
+  }
+
+  #answerInput {
+    margin: 5px;
+  }
+
+  table {
+    margin: 0.5rem;
+  }
+}
