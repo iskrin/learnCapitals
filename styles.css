@@ -121,6 +121,9 @@ table td {
 
   .answerInputContainer {
     font-size: 12px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 
   #answerInput {

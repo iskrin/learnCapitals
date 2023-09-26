@@ -289,6 +289,16 @@ refreshButton.addEventListener("click", () => {
   location.reload();
 });
 
+giveUpButton.addEventListener("touchstart", () => {
+  for (i = 0; i < stolice.length; i++) {
+    showCell(i);
+  }
+});
+
+refreshButton.addEventListener("touchstart", () => {
+  location.reload();
+});
+
 //usuwa wszystkie dziwne znaczki, spacje i przekształca do małych liter
 function decomposeString(inputString) {
   return inputString.replace(/[^a-zA-Z]/g, "").toLowerCase();
