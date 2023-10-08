@@ -89,7 +89,8 @@ table td {
 }
 
 .hidden {
-  opacity: 0;
+  color: transparent;
+  user-select: none;
 }
 
 .correct {
@@ -98,6 +99,10 @@ table td {
 
 .wrong {
   color: #d20000;
+}
+
+.answerCell.active {
+  background-color: rgba(11, 166, 244, 0.3);
 }
 
 @media only screen and (max-width: 600px) {

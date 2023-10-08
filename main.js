@@ -129,7 +129,7 @@ let stolice = [
   { państwo: "Norwegia", stolica: "Oslo" },
   { państwo: "Nowa Zelandia", stolica: "Wellington" },
   { państwo: "Oman", stolica: "Maskat" },
-  { państwo: "Pakistan", stolica: "Islambad" },
+  { państwo: "Pakistan", stolica: "Islamabad" },
   { państwo: "Palau", stolica: "Ngerulmud" },
   { państwo: "Panama", stolica: "Panama" },
   { państwo: "Papua Nowa Gwinea", stolica: "Port Moresby" },
@@ -235,7 +235,9 @@ for (i = 0; i < 65; i++) {
   tbody1.innerHTML += `
     <tr>
         <td>${stolice[randomSequence[i]].państwo}</td>
-        <td id = "${randomSequence[i]}", class = "hidden">${
+        <td id = "${
+          randomSequence[i]
+        }", class = "hidden answerCell", data-position = "${i}">${
     stolice[randomSequence[i]].stolica
   }</td>
     </tr>`;
@@ -246,7 +248,9 @@ for (i = 65; i < 130; i++) {
   tbody2.innerHTML += `
       <tr>
           <td>${stolice[randomSequence[i]].państwo}</td>
-          <td id = "${randomSequence[i]}", class = "hidden">${
+          <td id = "${
+            randomSequence[i]
+          }", class = "hidden answerCell" data-position = "${i}">${
     stolice[randomSequence[i]].stolica
   }</td>
       </tr>`;
@@ -257,11 +261,15 @@ for (i = 130; i < stolice.length; i++) {
   tbody3.innerHTML += `
         <tr>
             <td>${stolice[randomSequence[i]].państwo}</td>
-            <td id = "${randomSequence[i]}", class = "hidden">${
+            <td id = "${
+              randomSequence[i]
+            }", class = "hidden answerCell" data-position = "${i}">${
     stolice[randomSequence[i]].stolica
   }</td>
         </tr>`;
 }
+
+let activeCellPosition;
 
 //wykonuje sę przy evencie oninput
 function checkAnswer() {
@@ -269,23 +277,72 @@ function checkAnswer() {
     if (
       decomposeString(answerInput.value) == decomposeString(stolice[i].stolica)
     ) {
-      let cellToChange = document.getElementById(String(i));
+      let cellToChange = document.querySelector(
+        `[data-position="${activeCellPosition}"]`
+      );
       if (!cellToChange.classList.contains("answered")) {
         cellToChange.classList.add("answered");
-        showCell(i);
+        showCell(activeCellPosition);
+        i = 0;
+        hasCellBeenChanged = false;
+
+        //unika aktywacji komórki w której jest już poprawna odpowiedź
+        do {
+          if (
+            !answerCells[activeCellPosition + i].classList.contains("answered")
+          ) {
+            activeCell(activeCellPosition + i);
+            hasCellBeenChanged = true;
+          } else {
+            i++;
+          }
+        } while (!hasCellBeenChanged);
+
         answerInput.value = "";
       }
     }
   }
 }
+/*
+
+  }*/
+answerCells = document.querySelectorAll(".answerCell");
+activeCell(0);
+
+answerCells.forEach((cell) => {
+  cell.addEventListener("click", (e) => {
+    if (
+      !e.target.classList.contains("answered") &&
+      !e.target.classList.contains("wrong")
+    ) {
+      activeCell(parseInt(e.target.getAttribute("data-position")));
+    }
+  });
+});
+
+answerCells.forEach((cell) => {
+  cell.addEventListener("touchstart", (e) => {
+    if (
+      !e.target.classList.contains("answered") &&
+      !e.target.classList.contains("wrong")
+    ) {
+      activeCell(parseInt(e.target.getAttribute("data-position")));
+    }
+  });
+});
 
 giveUpButton.addEventListener("click", () => {
   for (i = 0; i < stolice.length; i++) {
     showCell(i);
   }
+  clearActives();
 });
 
 refreshButton.addEventListener("click", () => {
+  location.reload();
+});
+
+refreshButton.addEventListener("touchstart", () => {
   location.reload();
 });
 
@@ -293,18 +350,16 @@ giveUpButton.addEventListener("touchstart", () => {
   for (i = 0; i < stolice.length; i++) {
     showCell(i);
   }
-});
-
-refreshButton.addEventListener("touchstart", () => {
-  location.reload();
+  clearActives();
 });
 
 //usuwa wszystkie dziwne znaczki, spacje i przekształca do małych liter
 function decomposeString(inputString) {
   return inputString.replace(/[^a-zA-Z]/g, "").toLowerCase();
 }
+
 function showCell(i) {
-  let cellToChange = document.getElementById(String(i));
+  let cellToChange = document.querySelector(`[data-position="${i}"]`);
   cellToChange.classList.remove("hidden");
 
   if (cellToChange.classList.contains("answered")) {
@@ -312,4 +367,16 @@ function showCell(i) {
   } else {
     cellToChange.classList.add("wrong");
   }
+}
+
+function activeCell(cellIndex) {
+  clearActives();
+  activeCellPosition = cellIndex;
+  answerCells[cellIndex].classList.add("active");
+}
+
+function clearActives() {
+  answerCells.forEach((cell) => {
+    cell.classList.remove("active");
+  });
 }
