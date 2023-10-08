@@ -273,33 +273,32 @@ let activeCellPosition;
 
 //wykonuje sę przy evencie oninput
 function checkAnswer() {
-  for (i = 0; i < stolice.length; i++) {
-    if (
-      decomposeString(answerInput.value) == decomposeString(stolice[i].stolica)
-    ) {
-      let cellToChange = document.querySelector(
-        `[data-position="${activeCellPosition}"]`
-      );
-      if (!cellToChange.classList.contains("answered")) {
-        cellToChange.classList.add("answered");
-        showCell(activeCellPosition);
-        i = 0;
-        hasCellBeenChanged = false;
+  if (
+    decomposeString(answerInput.value) ==
+    decomposeString(stolice[answerCells[activeCellPosition].id].stolica)
+  ) {
+    let cellToChange = document.querySelector(
+      `[data-position="${activeCellPosition}"]`
+    );
+    if (!cellToChange.classList.contains("answered")) {
+      cellToChange.classList.add("answered");
+      showCell(activeCellPosition);
+      i = 0;
+      hasCellBeenChanged = false;
 
-        //unika aktywacji komórki w której jest już poprawna odpowiedź
-        do {
-          if (
-            !answerCells[activeCellPosition + i].classList.contains("answered")
-          ) {
-            activeCell(activeCellPosition + i);
-            hasCellBeenChanged = true;
-          } else {
-            i++;
-          }
-        } while (!hasCellBeenChanged);
+      //unika aktywacji komórki w której jest już poprawna odpowiedź
+      do {
+        if (
+          !answerCells[activeCellPosition + i].classList.contains("answered")
+        ) {
+          activeCell(activeCellPosition + i);
+          hasCellBeenChanged = true;
+        } else {
+          i++;
+        }
+      } while (!hasCellBeenChanged);
 
-        answerInput.value = "";
-      }
+      answerInput.value = "";
     }
   }
 }
